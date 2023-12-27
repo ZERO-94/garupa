@@ -53,7 +53,7 @@ func is_landed_on_block(below_block: Vector2):
 		return false;
 	var blocks = get_blocks();
 	for b in blocks:
-		if b.global_position.x == below_block.x and b.global_position.y == below_block.y:
+		if b.global_position.x == below_block.x and b.global_position.y + block_size == below_block.y:
 			return true;
 	return false;
 
