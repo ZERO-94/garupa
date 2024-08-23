@@ -1,128 +1,124 @@
 extends Node2D
 
-var current_block: Node2D = null;
-var speed = 1.0;
-var steps = 0;
-var steps_req = 50;
-var is_in_combo = false;
+const Playround = preload("res://Playground.gd");
+const Spawner = preload("res://Spawner.gd");
+
+var playground = null;
+var spawner = null;
+var score = 0;
+var max_combo = 0;
+var combo = 0;
+
 
 func _ready():
-	new_game();
-
-func new_game():
-	speed = 1.0;
-	steps = 0;
+	playground = $Playground;
+	spawner = $Spawner;
+	playground.new_game();
 
 func _physics_process(delta):
-	if is_in_combo:
-		recalculate_blocks_position();
-		var blocks = $Playground.get_children();
-		for block in blocks:
-			clear_blocks(block);
+	update_ui();
+	playground.calculate_matrix();
 
-	if current_block == null:
-		current_block = $Spawner.create_block($Playground);
-
-	handle_input();
-	
-	if $Playground.is_current_block_landed(current_block):
-		var tmp = current_block;
-		current_block = null;
-		clear_blocks(tmp);
+	print_debug("is_in_combo: " + str(playground.is_in_combo));
+	if(playground.is_in_combo):
+		playground.recalculate_blocks_position();
+		clear_blocks();
 		return;
 
-	steps += speed;
-	if steps > steps_req:
-		current_block.move_down();
-		steps = 0;
+	if playground.current_block == null:
+		var new_block = spawner.create_block();
+		playground.set_current_block(new_block);
 
-func clear_blocks(current_block: Node2D):
-	var current_band = current_block.get_meta("band");
-	var current_blocks = current_block.get_blocks();
+	if playground.is_current_block_landed():
+		var tmp = playground.current_block;
+		playground.current_block = null;
+		playground.is_in_combo = true;
+		return;
 
-	var matrix = $Playground.blocks_to_matrix();
-	var count = traverse_matrix(matrix, current_blocks[0].global_position.x / GlobalConfig.BLOCK_SIZE - 1, current_blocks[0].global_position.y / GlobalConfig.BLOCK_SIZE - 1, current_band);
-	if(count == 10): #There are 5 members in a band
-		is_in_combo = true;
-		var tmp = [];
-		for block in $Playground.get_children():
-			if block.get_meta("band") == current_band:
-				tmp.append(block);
-		for block in tmp:
-			$Spawner.available_characters.append(current_band + "/" + block.name);
-			$Spawner.spawned_characters.erase(current_band  + "/" + block.name);
-			block.queue_free();
-	else:
-		is_in_combo = false;
+	handle_input();
+
+	playground.steps += playground.speed;
+	if playground.steps > playground.steps_req:
+		playground.current_block.move_down();
+		playground.steps = 0;
+
+#TODO: enhance with combo later
+func clear_blocks():
+	var matrix: Array[Array] = [];
+	for i in range(GlobalConfig.ROW):
+		var cols = [];
+		for j in range(GlobalConfig.COL):
+			if playground.playground_in_matrix[i][j] != null:
+				cols.append({
+					"name": playground.playground_in_matrix[i][j].name,
+					"band": playground.playground_in_matrix[i][j].band,
+					"visited": false
+				});
+			else:
+				cols.append(null);
+		matrix.append(cols);
+
+	var checked_bands = {};
+	for i in range(GlobalConfig.ROW):
+		for j in range(GlobalConfig.COL):
+			if(matrix[i][j] != null and matrix[i][j].visited == false and checked_bands.find_key(matrix[i][j].band) == null):
+				checked_bands[matrix[i][j].band] = traverse_matrix(matrix, i, j, matrix[i][j].band);
+	var in_combo_this_check = false;
+	for current_band in checked_bands:
+		if(checked_bands[current_band] == 10): #There are 5 members in a band
+			in_combo_this_check = true;
+			combo += 1;
+			score += 5 * 50; #will put the score inget_nodes_in_group character themselves
+			var tmp = playground.get_tree().get_nodes_in_group("band:" + current_band);
+			for block in tmp:
+				spawner.available_characters.append(current_band + "/" + block.name);
+				spawner.spawned_characters.erase(current_band  + "/" + block.name);
+				block.queue_free();
+	
+	playground.is_in_combo = in_combo_this_check;
+	
+	if !in_combo_this_check:
+		max_combo = max(max_combo, combo);
+		combo = 0;
+
+func update_ui():
+	var score_label = get_node(NodePath("ScorePanel/CenterContainer/VSplitContainer/ScoreContainer/ScoreText"));
+	score_label.text = str(score);
+	var combo_label = get_node(NodePath("ScorePanel/CenterContainer/VSplitContainer/MaxComboContainer/MaxComboText"));
+	combo_label.text = str(max_combo);
 
 func traverse_matrix(matrix, start_x, start_y, current_band):
 	var x = start_x;
 	var y = start_y;
 	var count = 0;
 	var current_block = matrix[x][y];
-	if  current_block ==null || current_block.visited == true:
+	if  current_block ==null || current_block.visited == true || current_block.band != current_band:
 		return count;
 
 	current_block.visited = true;
-	if current_block.band == current_band:
-		count +=1;
-		if x + 1 < 6 and matrix[x + 1][y] != null:
-			count += traverse_matrix(matrix, x + 1, y, current_band);
-		if x - 1 >= 0 and matrix[x - 1][y] != null:
-			count += traverse_matrix(matrix, x - 1, y, current_band);
-		if y + 1 < 8 and matrix[x][y + 1] != null:
-			count += traverse_matrix(matrix, x, y + 1, current_band);
-		if y - 1 >= 0 and matrix[x][y - 1] != null:
-			count += traverse_matrix(matrix, x, y - 1, current_band);
-
+	count +=1;
+	if x + 1 < GlobalConfig.ROW and matrix[x + 1][y] != null:
+		count += traverse_matrix(matrix, x + 1, y, current_band);
+	if x - 1 >= 0 and matrix[x - 1][y] != null:
+		count += traverse_matrix(matrix, x - 1, y, current_band);
+	if y + 1 < GlobalConfig.COL and matrix[x][y + 1] != null:
+		count += traverse_matrix(matrix, x, y + 1, current_band);
+	if y - 1 >= 0 and matrix[x][y - 1] != null:
+		count += traverse_matrix(matrix, x, y - 1, current_band);
 	return count;
 
-func recalculate_blocks_position():
-	var calculated_chars = [];
-	var matrix = $Playground.blocks_to_matrix();
-	for i in range(5, -1, -1):
-		for j in range(7, -1, -1):
-			if matrix[i][j] == null:
-				continue;
-			if(calculated_chars.find(matrix[i][j].name) != -1):
-				continue;
-			var block = $Playground.get_node(NodePath(matrix[i][j].name));
-			calculated_chars.append(matrix[i][j].name);
-			var bottom_blocks = block.get_bottom_blocks();
-			var max_drop_gaps = [];
-			for b in bottom_blocks:
-				
-				var x = round((b.global_position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-				var y = round((b.global_position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-				var max_drop_gap = GlobalConfig.COL - 1 - y;
-				for k in range(y + 1, GlobalConfig.COL):
-					if matrix[x][k] != null:
-						max_drop_gap = (k - 1) - y;
-						break;
-				max_drop_gaps.append(max_drop_gap);
-			
-			var final_max_drop_gap = max_drop_gaps.min();
-			print(max_drop_gaps,"-", final_max_drop_gap);
-			
-			if final_max_drop_gap > 0:
-				block.global_position.y += final_max_drop_gap * GlobalConfig.BLOCK_SIZE;
-
 func handle_input():
-	var tmp = $Playground.calculate_boundaries(current_block);
-	var nearest_left_positions = tmp["left"];
-	var nearest_right_positions = tmp["right"];
-	var nearest_top_positions = tmp["top"];
-	var nearest_bottom_positions = tmp["bottom"];
-	
 	if Input.is_action_just_pressed("ui_right"):
-		current_block.move_right(nearest_right_positions.min());
+		playground.current_block.move_right();
+		if playground.is_collided_other_blocks(playground.current_block):
+			playground.current_block.move_left();
 	if Input.is_action_just_pressed("ui_left"):
-		current_block.move_left(nearest_left_positions.max());
+		playground.current_block.move_left();
+		if playground.is_collided_other_blocks(playground.current_block):
+			playground.current_block.move_right();
 	if Input.is_action_just_pressed("ui_up"):
-		current_block.rotate_char(nearest_left_positions.max(), \
-		nearest_right_positions.min(), \
-		nearest_bottom_positions.max(), \
-		nearest_top_positions.min()
-		);
+		playground.current_block.rotate_char();
+		if playground.is_collided_other_blocks(playground.current_block):
+			playground.current_block.revert_rotate_char();
 	if Input.is_action_just_pressed("ui_down"):
-		current_block.move_down();
+		playground.current_block.move_down();

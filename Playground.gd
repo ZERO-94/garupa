@@ -1,158 +1,94 @@
 extends Node2D 
 
-func is_current_block_landed(current_block):
+const CharacterBlock = preload("res://src/characters/common/CharacterBlock.gd");
+const BlockNode = preload("res://src/characters/common/BlockNode.gd");
+
+var playground_in_matrix: Array[Array];
+var current_block: CharacterBlock = null;
+var speed = 1.0;
+var steps = 0;
+var steps_req = 50;
+var is_in_combo = false;
+
+func new_game():
+	speed = 1.0;
+	steps = 0;
+	calculate_matrix();
+
+func set_current_block(block: CharacterBlock):
+	current_block = block;
+	add_child(current_block);
+
+func is_current_block_landed():
 	var blocks = get_children();
 	for block in blocks:
 		if block.name != current_block.name:
-			for b in block.get_blocks():
-				if current_block.is_landed_on_block(b.global_position):
+			for b in block.get_block_nodes():
+				if current_block.is_landed_on_node(b.global_position):
 					return true;
-
-	if current_block.is_landed(GlobalConfig.BOTTM_BOUNDARY):
+		
+	if current_block.is_landed_on_node(Vector2(current_block.position.x, GlobalConfig.BOTTM_BOUNDARY + GlobalConfig.BLOCK_SIZE / 2)):
 		return true;
 	
 	return false;
 
-func calculate_boundaries(current_block):
-	var nearest_left_positions = [GlobalConfig.LEFT_BOUNDARY];
-	var nearest_right_positions = [GlobalConfig.RIGHT_BOUNDARY];
-	var nearest_top_positions = [GlobalConfig.TOP_BOUNDARY];
-	var nearest_bottom_positions = [GlobalConfig.BOTTM_BOUNDARY];
-	var current_blocks = current_block.get_blocks();
-	for block in current_blocks:
-		var nearest_left_position = nearest_left_block(block.global_position);
-		var nearest_right_position = nearest_right_block(block.global_position);
-		var nearest_top_position = nearest_top_block(block.global_position);
-		var nearest_bottom_position = nearest_bottom_block(block.global_position);
+func is_collided_other_blocks(block: CharacterBlock):
+	var nodes = block.get_block_nodes();
+	#check if collide
+	for node in nodes:
+		var node_matrix_position = node.get_matrix_position();
+		if node_matrix_position.x < 0 or node_matrix_position.x > GlobalConfig.ROW - 1 or node_matrix_position.y < 0 or node_matrix_position.y > GlobalConfig.COL - 1:
+			return true;
+		for i in range(GlobalConfig.ROW):
+			for j in range(GlobalConfig.COL):
+				if playground_in_matrix[i][j] != null:
+					if playground_in_matrix[i][j].name == block.name:
+						continue;
+					if node_matrix_position.x == i and node_matrix_position.y == j:
+						return true;
+	return false;
 
-		for b in current_blocks:
-			if nearest_left_position != null and nearest_left_position.x == b.global_position.x:
-				nearest_left_position = null;
-			if nearest_right_position != null and nearest_right_position.x == b.global_position.x:
-				nearest_right_position = null;
-			if nearest_top_position != null and nearest_top_position.y == b.global_position.y:
-				nearest_top_position = null;
-			if nearest_bottom_position != null and nearest_bottom_position.y == b.global_position.y:
-				nearest_bottom_position = null;
-
-		if nearest_left_position != null:
-			nearest_left_positions.append(nearest_left_position.x + GlobalConfig.BLOCK_SIZE / 2);
-		if nearest_right_position != null:
-			nearest_right_positions.append(nearest_right_position.x - GlobalConfig.BLOCK_SIZE / 2);
-		if nearest_top_position != null:
-			nearest_top_positions.append(nearest_top_position.y - GlobalConfig.BLOCK_SIZE / 2);
-		if nearest_bottom_position != null:
-			nearest_bottom_positions.append(nearest_bottom_position.y + GlobalConfig.BLOCK_SIZE / 2);
-
-	return {
-		"left": nearest_left_positions,
-		"right": nearest_right_positions,
-		"top": nearest_top_positions,
-		"bottom": nearest_bottom_positions
-	};
-	
-
-func blocks_to_matrix():
-	var blocks_pg = get_children();
-	var map = [];
-	for i in range(6):
-		var tmp = [];
-		tmp.resize(8);
-		tmp.fill(null);
-		map.append(tmp);
+func calculate_matrix() -> Array[Array]:
+	var blocks_pg = get_children() as Array[CharacterBlock];
+	var map: Array[Array] = [];
+	for i in range(GlobalConfig.ROW):
+		var cols = [];
+		cols.resize(GlobalConfig.COL);
+		cols.fill(null);
+		map.append(cols);
 
 	for block in blocks_pg:
-		var blocks = block.get_blocks();
-		for tmp in blocks:
-			# var arr = block.name.split("_");
-			var x = round((tmp.global_position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE));
-			var y = round((tmp.global_position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE));
-			map[x - 1][y - 1] = {"name": block.name, "band": block.get_meta("band"), "visited": false};
-
+		var nodes = block.get_block_nodes();
+		for node in nodes:
+			var node_matrix_position = node.get_matrix_position();
+			map[node_matrix_position.x][node_matrix_position.y] = {"name": block.name, "band": block.get_band()};
+	playground_in_matrix = map;
 	return map;
 
-func nearest_right_block(position: Vector2): # return null if no block on the right
-	#convert position to matrix
-	var x = round((position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-	var y = round((position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-
-	if(x > GlobalConfig.ROW - 1 || x < 0 || y > GlobalConfig.COL - 1 || y < 0):
-		return null;
-
-	var matrix = blocks_to_matrix();
-	var nearest = null;
-	for i in range(x + 1, GlobalConfig.ROW):
-		if matrix[i][y] != null:
-			nearest = i;
-			break;
-	
-	if nearest == null:
-		return null;
-
-	#convert back to Vector2
-	var nearest_x = (nearest + 1) * GlobalConfig.BLOCK_SIZE + GlobalConfig.LEFT_BOUNDARY - GlobalConfig.BLOCK_SIZE / 2;
-
-	return Vector2(nearest_x, position.y);
-
-func nearest_left_block(position: Vector2): # return null if no block on the left
-	#convert position to matrix
-	var x = round((position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-	var y = round((position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-
-	if(x > GlobalConfig.ROW - 1 || x < 0 || y > GlobalConfig.COL - 1 || y < 0):
-		return null;
-
-	var matrix = blocks_to_matrix();
-	var nearest = null;
-	for i in range(x - 1, -1, -1):
-		if matrix[i][y] != null:
-			nearest = i;
-			break;
-	if nearest == null:
-		return null;
-	#convert back to Vector2
-	var nearest_x = (nearest + 1) * GlobalConfig.BLOCK_SIZE + GlobalConfig.LEFT_BOUNDARY - GlobalConfig.BLOCK_SIZE / 2;
-
-	return Vector2(nearest_x, position.y);
-
-func nearest_top_block(position: Vector2): # return null if no block on the top
-	#convert position to matrix
-	var x = round((position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-	var y = round((position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-
-	if(x > GlobalConfig.ROW - 1 || x < 0 || y > GlobalConfig.COL - 1 || y < 0):
-		return null;
-
-	var matrix = blocks_to_matrix();
-	var nearest = null;
-	for i in range(y - 1, -1, -1):
-		if matrix[x][i] != null:
-			nearest = i;
-			break;
-	if nearest == null:
-		return null;
-	#convert back to Vector2
-	var nearest_y = (nearest + 1) * GlobalConfig.BLOCK_SIZE + GlobalConfig.TOP_BOUNDARY - GlobalConfig.BLOCK_SIZE / 2;
-
-	return Vector2(position.x, nearest_y);
-
-func nearest_bottom_block(position: Vector2): # return null if no block on the bottom
-	#convert position to matrix
-	var x = round((position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-	var y = round((position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE)) - 1;
-
-	if(x > GlobalConfig.ROW - 1 || x < 0 || y > GlobalConfig.COL - 1 || y < 0):
-		return null;
-
-	var matrix = blocks_to_matrix();
-	var nearest = null;
-	for i in range(y + 1, GlobalConfig.COL):
-		if matrix[x][i] != null:
-			nearest = i;
-			break;
-	if nearest == null:
-		return null;
-	#convert back to Vector2
-	var nearest_y = (nearest + 1) * GlobalConfig.BLOCK_SIZE + GlobalConfig.TOP_BOUNDARY - GlobalConfig.BLOCK_SIZE / 2;
-
-	return Vector2(position.x, nearest_y);
+func recalculate_blocks_position():
+	var calculated_chars = [];
+	for j in range(7, -1, -1):
+		for i in range(5, -1, -1):
+			if playground_in_matrix[i][j] == null:
+				continue;
+			if(calculated_chars.find(playground_in_matrix[i][j].name) != -1):
+				continue;
+			calculated_chars.append(playground_in_matrix[i][j].name);
+			var block = get_node(NodePath(playground_in_matrix[i][j].name)) as CharacterBlock;
+			var bottom_blocks = block.get_bottom_nodes();
+			var max_drop_gaps = [];
+			for b in bottom_blocks:
+				var node_matrix_position = b.get_matrix_position();
+				var max_drop_gap = GlobalConfig.COL - 1 - node_matrix_position.y;
+				for k in range(node_matrix_position.y + 1, GlobalConfig.COL):
+					if playground_in_matrix[node_matrix_position.x][k] != null:
+						max_drop_gap = (k - 1) - node_matrix_position.y;
+						break;
+				max_drop_gaps.append(max_drop_gap);
+			
+			var final_max_drop_gap = max_drop_gaps.min();
+			
+			if final_max_drop_gap > 0:
+				block.global_position.y += final_max_drop_gap * GlobalConfig.BLOCK_SIZE;
+				calculate_matrix();
+	calculate_matrix();

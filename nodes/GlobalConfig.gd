@@ -1,6 +1,6 @@
 extends Node2D
 
-var COL = 8;
+var COL = 10;
 var ROW = 6;
 
 var BLOCK_SIZE = 64;

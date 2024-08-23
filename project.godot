@@ -19,6 +19,13 @@ config/icon="res://icon.png"
 
 GlobalConfig="*res://nodes/GlobalConfig.gd"
 
+[global_group]
+
+band:roselia=""
+band:afterglow=""
+band:popipa=""
+band:pasupare=""
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

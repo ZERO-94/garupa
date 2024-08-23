@@ -4,6 +4,8 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
+const CharacterBlock = preload("res://src/characters/common/CharacterBlock.gd");
+
 var CHARACTERS = [
 	"roselia/Sayo",
 	"roselia/Ako",
@@ -13,13 +15,18 @@ var CHARACTERS = [
 	"popipa/Kasumi",
 	"popipa/Arisa",
 	"popipa/Rimi",
-	"popipa/Saya",
-	"popipa/OTae",
+	"popipa/Saaya",
+	"popipa/Tae",
 	"afterglow/Ran",
 	"afterglow/Moca",
 	"afterglow/Himari",
 	"afterglow/Tomoe",
 	"afterglow/Tsugumi",
+	"pasupare/Aya",
+	"pasupare/Hina",
+	"pasupare/Chisato",
+	"pasupare/Maya",
+	"pasupare/Eve",
 ]
 var available_characters = CHARACTERS;
 var spawned_characters = [];
@@ -35,18 +42,17 @@ func _init(block_size = null):
 func _ready():
 	pass
 
-func create_block(ref) -> Node2D:
+func create_block() -> CharacterBlock:
 	var character = available_characters[randi() % available_characters.size()];
 	spawned_characters.append(character);
 	available_characters.erase(character);
-	var new_block = load("res://blocks/characters/" + character + ".tscn").instantiate();
+	var new_block: CharacterBlock = load("res://blocks/characters/" + character + ".tscn").instantiate() as CharacterBlock;
 	#make the block upside down
 	
 	new_block.name = character.split("/")[1];
 	new_block.position = Vector2(position.x + size / 2, position.y  + size / 2);
 	new_block.rotate(PI);
 
-	ref.add_child(new_block);
 	return new_block;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

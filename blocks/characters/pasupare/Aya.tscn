@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca3opok4sur1c"]
+
+[ext_resource type="PackedScene" uid="uid://cmkeu3guqfma6" path="res://blocks/common/CharacterBlock.tscn" id="1_vtw1f"]
+[ext_resource type="Texture2D" uid="uid://b1q0tai83gibo" path="res://assets/yukina-minato.png" id="2_cyejn"]
+
+[node name="CharacterBlock" groups=["band:pasupare"] instance=ExtResource("1_vtw1f")]
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_cyejn")

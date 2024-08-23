@@ -1,29 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckd6cib1wt5ux"]
+[gd_scene load_steps=3 format=3 uid="uid://bq478ty4y38dw"]
 
-[ext_resource type="Script" path="res://src/characters/CharacterBlock.gd" id="1_vqcfi"]
-[ext_resource type="Texture2D" uid="uid://dnia2hl7cl4va" path="res://assets/rinko-shirokane.png" id="2_8l0q5"]
+[ext_resource type="PackedScene" uid="uid://cmkeu3guqfma6" path="res://blocks/common/CharacterBlock.tscn" id="1_x8656"]
+[ext_resource type="Texture2D" uid="uid://dnia2hl7cl4va" path="res://assets/rinko-shirokane.png" id="2_xlmql"]
 
-[sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(64, 64)
+[node name="CharacterBlock" groups=["band:afterglow"] instance=ExtResource("1_x8656")]
 
-[sub_resource type="RectangleShape2D" id="2"]
-size = Vector2(64, 64)
-
-[node name="Node2D" type="Node2D"]
-script = ExtResource("1_vqcfi")
-metadata/band = "afterglow"
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 32)
-texture = ExtResource("2_8l0q5")
-
-[node name="Block" type="CharacterBody2D" parent="." groups=["block"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Block"]
-shape = SubResource("1")
-
-[node name="Block2" type="CharacterBody2D" parent="." groups=["block"]]
-position = Vector2(0, 64)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Block2"]
-shape = SubResource("2")
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_xlmql")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dd8rkf2m4c4qr"]
+
+[ext_resource type="PackedScene" uid="uid://cmkeu3guqfma6" path="res://blocks/common/CharacterBlock.tscn" id="1_nuwce"]
+[ext_resource type="Texture2D" uid="uid://cfrbh6fkncln4" path="res://assets/imai-lisa.png" id="2_h6kb0"]
+
+[node name="CharacterBlock" groups=["band:popipa"] instance=ExtResource("1_nuwce")]
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_h6kb0")

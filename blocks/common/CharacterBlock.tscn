@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmkeu3guqfma6"]
+
+[ext_resource type="Script" path="res://src/characters/common/CharacterBlock.gd" id="1_qftxr"]
+[ext_resource type="Texture2D" uid="uid://yc8trhj7kxbe" path="res://assets/hikawa-sayo.png" id="2_5nesf"]
+[ext_resource type="PackedScene" uid="uid://iymrq4uxq8vk" path="res://blocks/common/BlockNode.tscn" id="2_t2n61"]
+
+[node name="CharacterBlock" type="Node2D"]
+script = ExtResource("1_qftxr")
+
+[node name="BlockNode" parent="." instance=ExtResource("2_t2n61")]
+
+[node name="BlockNode2" parent="." instance=ExtResource("2_t2n61")]
+position = Vector2(0, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 32)
+texture = ExtResource("2_5nesf")
