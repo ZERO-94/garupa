@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dy5tksb3rkpid"]
+
+[ext_resource type="Script" path="res://src/characters/CharacterBlock.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://cfrbh6fkncln4" path="res://assets/imai-lisa.png" id="2_x2u8u"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(64, 64)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("2")
+metadata/band = "popipa"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 32)
+texture = ExtResource("2_x2u8u")
+
+[node name="Block" type="CharacterBody2D" parent="." groups=["block"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Block"]
+shape = SubResource("1")
+
+[node name="Block2" type="CharacterBody2D" parent="." groups=["block"]]
+position = Vector2(0, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Block2"]
+shape = SubResource("2")

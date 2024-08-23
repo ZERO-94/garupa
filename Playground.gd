@@ -67,7 +67,7 @@ func blocks_to_matrix():
 			# var arr = block.name.split("_");
 			var x = round((tmp.global_position.x - GlobalConfig.LEFT_BOUNDARY) / (GlobalConfig.BLOCK_SIZE));
 			var y = round((tmp.global_position.y - GlobalConfig.TOP_BOUNDARY) / (GlobalConfig.BLOCK_SIZE));
-			map[x - 1][y - 1] = {"name": "name", "visited": false};
+			map[x - 1][y - 1] = {"name": block.name, "band": block.get_meta("band"), "visited": false};
 
 	return map;
 
