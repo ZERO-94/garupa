@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GlobalConfig="*res://nodes/GlobalConfig.gd"
+ScreenTransition="*res://screens/ScreenTransition.tscn"
 
 [global_group]
 

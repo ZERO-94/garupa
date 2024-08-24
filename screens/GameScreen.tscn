@@ -1,0 +1,348 @@
+[gd_scene load_steps=15 format=4 uid="uid://caynlm2cnvy4a"]
+
+[ext_resource type="Script" path="res://src/screens/GameScreen.gd" id="1_6uyb2"]
+[ext_resource type="Texture2D" uid="uid://dcnvci88m7wwt" path="res://assets/bg00026.png" id="2_n5mt2"]
+[ext_resource type="Texture2D" uid="uid://d3f4v4m6gp186" path="res://assets/Screenshot 2023-12-22 at 22.35.20.png" id="3_5h6q5"]
+[ext_resource type="Script" path="res://Spawner.gd" id="4_443pw"]
+[ext_resource type="Script" path="res://Playground.gd" id="5_cxfy4"]
+[ext_resource type="Texture2D" uid="uid://dly1fnxtk5osi" path="res://assets/next-card.png" id="6_3blv3"]
+[ext_resource type="Texture2D" uid="uid://bcfo0casqyuu8" path="res://assets/score-card.png" id="7_tdta0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0geri"]
+texture = ExtResource("3_5h6q5")
+margins = Vector2i(32, 32)
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/flip_v = true
+0:0/4 = 4
+0:0/4/transpose = true
+0:0/5 = 5
+0:0/5/flip_h = true
+0:0/5/transpose = true
+0:0/6 = 6
+0:0/6/flip_v = true
+0:0/6/transpose = true
+0:0/7 = 7
+0:0/7/flip_h = true
+0:0/7/flip_v = true
+0:0/7/transpose = true
+1:1/0 = 0
+1:2/0 = 0
+1:3/0 = 0
+1:4/0 = 0
+2:5/0 = 0
+2:6/0 = 0
+2:7/0 = 0
+2:8/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+0:9/0 = 0
+0:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+1:10/0 = 0
+1:9/0 = 0
+1:8/0 = 0
+1:7/0 = 0
+1:6/0 = 0
+1:5/0 = 0
+2:9/0 = 0
+2:4/0 = 0
+2:3/0 = 0
+2:2/0 = 0
+2:1/0 = 0
+2:0/0 = 0
+1:0/0 = 0
+3:0/0 = 0
+4:1/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+6:1/0 = 0
+6:2/0 = 0
+6:3/0 = 0
+6:4/0 = 0
+6:5/0 = 0
+6:6/0 = 0
+6:7/0 = 0
+6:8/0 = 0
+6:9/0 = 0
+6:10/0 = 0
+5:4/0 = 0
+5:3/0 = 0
+5:2/0 = 0
+5:1/0 = 0
+5:5/0 = 0
+5:6/0 = 0
+5:7/0 = 0
+5:8/0 = 0
+5:9/0 = 0
+4:8/0 = 0
+4:7/0 = 0
+4:6/0 = 0
+3:5/0 = 0
+3:4/0 = 0
+3:3/0 = 0
+3:2/0 = 0
+3:1/0 = 0
+3:6/0 = 0
+4:5/0 = 0
+4:4/0 = 0
+4:3/0 = 0
+4:2/0 = 0
+3:8/0 = 0
+3:7/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_l7rb4"]
+texture = ExtResource("3_5h6q5")
+margins = Vector2i(192, 32)
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/flip_v = true
+0:0/4 = 4
+0:0/4/transpose = true
+0:0/5 = 5
+0:0/5/flip_h = true
+0:0/5/transpose = true
+0:0/6 = 6
+0:0/6/flip_v = true
+0:0/6/transpose = true
+0:0/7 = 7
+0:0/7/flip_h = true
+0:0/7/flip_v = true
+0:0/7/transpose = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6bdb4"]
+texture = ExtResource("3_5h6q5")
+margins = Vector2i(352, 32)
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/flip_v = true
+0:0/4 = 4
+0:0/4/transpose = true
+0:0/5 = 5
+0:0/5/flip_h = true
+0:0/5/transpose = true
+0:0/6 = 6
+0:0/6/flip_v = true
+0:0/6/transpose = true
+0:0/7 = 7
+0:0/7/flip_h = true
+0:0/7/flip_v = true
+0:0/7/transpose = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7oqdd"]
+texture = ExtResource("3_5h6q5")
+margins = Vector2i(32, 192)
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/flip_v = true
+0:0/4 = 4
+0:0/4/transpose = true
+0:0/5 = 5
+0:0/5/flip_h = true
+0:0/5/transpose = true
+0:0/6 = 6
+0:0/6/flip_v = true
+0:0/6/transpose = true
+0:0/7 = 7
+0:0/7/flip_h = true
+0:0/7/flip_v = true
+0:0/7/transpose = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v3l5v"]
+texture = ExtResource("3_5h6q5")
+margins = Vector2i(192, 192)
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/flip_v = true
+0:0/4 = 4
+0:0/4/transpose = true
+0:0/5 = 5
+0:0/5/flip_h = true
+0:0/5/transpose = true
+0:0/6 = 6
+0:0/6/flip_v = true
+0:0/6/transpose = true
+0:0/7 = 7
+0:0/7/flip_h = true
+0:0/7/flip_v = true
+0:0/7/transpose = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vcxf3"]
+texture = ExtResource("3_5h6q5")
+margins = Vector2i(352, 192)
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/flip_v = true
+0:0/4 = 4
+0:0/4/transpose = true
+0:0/5 = 5
+0:0/5/flip_h = true
+0:0/5/transpose = true
+0:0/6 = 6
+0:0/6/flip_v = true
+0:0/6/transpose = true
+0:0/7 = 7
+0:0/7/flip_h = true
+0:0/7/flip_v = true
+0:0/7/transpose = true
+
+[sub_resource type="TileSet" id="TileSet_e343f"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_0geri")
+sources/1 = SubResource("TileSetAtlasSource_l7rb4")
+sources/2 = SubResource("TileSetAtlasSource_6bdb4")
+sources/3 = SubResource("TileSetAtlasSource_7oqdd")
+sources/4 = SubResource("TileSetAtlasSource_v3l5v")
+sources/5 = SubResource("TileSetAtlasSource_vcxf3")
+
+[node name="GameScreen" type="Node2D"]
+script = ExtResource("1_6uyb2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(428.996, 376.037)
+scale = Vector2(0.833992, 0.730362)
+texture = ExtResource("2_n5mt2")
+
+[node name="TileMap2" type="TileMapLayer" parent="."]
+use_parent_material = true
+position = Vector2(64, 64)
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAABAAAAAAADAAAAAAABAAEAAAAGAAAAAAAAAAEAAAADAAAAAAACAAAAAAAGAAAAAAADAAAAAAAFAAMAAAADAAEAAAADAAgAAAACAAEAAAAFAAMAAAAAAAIAAAAGAAAAAAAAAAMAAAAFAAMAAAABAAMAAAADAAgAAAABAAIAAAAFAAMAAAAEAAAAAAADAAgAAAAFAAAAAAABAAEAAAAFAAEAAAADAAAAAAAEAAEAAAABAAEAAAACAAIAAAADAAgAAAADAAIAAAABAAEAAAADAAMAAAADAAAAAAACAAMAAAABAAEAAAAAAAQAAAADAAgAAAABAAQAAAABAAEAAAABAAUAAAADAAAAAAAAAAUAAAABAAEAAAAEAAIAAAADAAAAAAAFAAIAAAAGAAAAAAAFAAMAAAAFAAMAAAAEAAMAAAAGAAAAAAACAAQAAAADAAAAAAADAAQAAAAGAAAAAAADAAUAAAAFAAMAAAACAAUAAAAGAAAAAAAAAAYAAAADAAAAAAABAAYAAAAGAAAAAAABAAcAAAAFAAMAAAAAAAcAAAAGAAAAAAACAAYAAAAFAAMAAAADAAYAAAADAAgAAAADAAcAAAABAAEAAAACAAcAAAADAAgAAAAEAAQAAAAFAAMAAAAFAAQAAAADAAgAAAAFAAUAAAABAAEAAAAEAAUAAAADAAgAAAAEAAYAAAABAAEAAAAFAAYAAAADAAAAAAAFAAcAAAAGAAAAAAAEAAcAAAADAAAAAAAAAAgAAAAFAAMAAAAAAAkAAAADAAgAAAABAAgAAAADAAgAAAABAAkAAAABAAEAAAACAAgAAAABAAEAAAACAAkAAAADAAAAAAADAAgAAAADAAAAAAADAAkAAAAGAAAAAAAEAAgAAAAGAAAAAAAEAAkAAAAFAAMAAAAFAAgAAAAFAAMAAAAFAAkAAAADAAgAAAA=")
+tile_set = SubResource("TileSet_e343f")
+
+[node name="Spawner" type="Node2D" parent="."]
+position = Vector2(192, 64)
+script = ExtResource("4_443pw")
+
+[node name="Playground" type="Node2D" parent="."]
+script = ExtResource("5_cxfy4")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 480.0
+offset_top = 96.0
+offset_right = 1172.0
+offset_bottom = 782.0
+scale = Vector2(0.3, 0.3)
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+texture = ExtResource("6_3blv3")
+
+[node name="ScorePanel" type="PanelContainer" parent="."]
+offset_left = 480.0
+offset_top = 352.0
+offset_right = 1172.0
+offset_bottom = 1042.0
+scale = Vector2(0.3, 0.3)
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="ScorePanel"]
+layout_mode = 2
+texture = ExtResource("7_tdta0")
+
+[node name="CenterContainer" type="CenterContainer" parent="ScorePanel"]
+layout_mode = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="ScorePanel/CenterContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 11.75
+theme_override_constants/separation = 28
+
+[node name="ScoreContainer" type="HSplitContainer" parent="ScorePanel/CenterContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScorePanel/CenterContainer/VSplitContainer/ScoreContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 54
+text = "Score:"
+horizontal_alignment = 1
+
+[node name="ScoreText" type="Label" parent="ScorePanel/CenterContainer/VSplitContainer/ScoreContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 54
+text = "0"
+horizontal_alignment = 1
+
+[node name="MaxComboContainer" type="HSplitContainer" parent="ScorePanel/CenterContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScorePanel/CenterContainer/VSplitContainer/MaxComboContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 54
+text = "Max Combo:"
+horizontal_alignment = 1
+
+[node name="MaxComboText" type="Label" parent="ScorePanel/CenterContainer/VSplitContainer/MaxComboContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 54
+text = "0"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(430, 377)
+zoom = Vector2(0.8, 0.8)

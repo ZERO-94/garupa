@@ -31,3 +31,10 @@ res://blocks/characters/pasupare/Aya.tscn
 res://blocks/characters/pasupare/Chisato.tscn
 res://blocks/characters/pasupare/Eve.tscn
 res://blocks/characters/pasupare/Maya.tscn
+res://screens/GameScreen.tscn
+res://screens/StartScreen.tscn
+res://src/screens/GameScreen.gd
+res://src/screens/StartScreen.gd
+res://screens/ScreenTrasition.tscn
+res://screens/ScreenTransition.tscn
+res://src/screens/ScreenTransition.gd
