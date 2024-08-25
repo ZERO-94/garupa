@@ -1,11 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmkeu3guqfma6"]
+[gd_scene load_steps=5 format=3 uid="uid://cmkeu3guqfma6"]
 
 [ext_resource type="Script" path="res://src/characters/common/CharacterBlock.gd" id="1_qftxr"]
 [ext_resource type="Texture2D" uid="uid://yc8trhj7kxbe" path="res://assets/hikawa-sayo.png" id="2_5nesf"]
 [ext_resource type="PackedScene" uid="uid://iymrq4uxq8vk" path="res://blocks/common/BlockNode.tscn" id="2_t2n61"]
 
-[node name="CharacterBlock" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t158a"]
+size = Vector2(63.9, 127.9)
+
+[node name="CharacterBlock" type="CharacterBody2D"]
 script = ExtResource("1_qftxr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_t158a")
 
 [node name="BlockNode" parent="." instance=ExtResource("2_t2n61")]
 

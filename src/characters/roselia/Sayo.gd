@@ -1,1 +1,1 @@
-extends "../CharacterBlock.gd"
+extends "../common/CharacterBlock.gd"

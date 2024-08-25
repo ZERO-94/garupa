@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 const BlockNode = preload("res://src/characters/common/BlockNode.gd");
 
@@ -11,18 +11,25 @@ func _ready():
 func rotate_char():
 	#check if hit boundary
 	global_rotation_degrees += 90;
-
+	if move_and_collide(Vector2(0, 0), true):
+		global_rotation_degrees -= 90;
+	
 func revert_rotate_char():
 	global_rotation_degrees -= 90;
+	if move_and_collide(Vector2(0, 0), true):
+		global_rotation_degrees += 90;
 
 func move_down(steps: int = 1):
-	position.y += steps * SINGLE_BLOCK_SIZE;
+	return move_and_collide(Vector2(0, steps * SINGLE_BLOCK_SIZE));
+
+func move_up(steps: int = 1):
+	return move_and_collide(Vector2(0, -(steps * SINGLE_BLOCK_SIZE)));
 
 func move_right():
-	position.x += SINGLE_BLOCK_SIZE;
+	return move_and_collide(Vector2(SINGLE_BLOCK_SIZE, 0));
 
 func move_left():
-	position.x -= SINGLE_BLOCK_SIZE;
+	return move_and_collide(Vector2(-SINGLE_BLOCK_SIZE, 0));
 
 func get_block_nodes() -> Array[BlockNode]:
 	var arr: Array[BlockNode] = [];
@@ -49,13 +56,12 @@ func get_bottom_nodes() -> Array[BlockNode]:
 			bottom_nodes.append(node as BlockNode);
 	return bottom_nodes;
 
-func is_landed_on_node(below_node_position: Vector2):
-	if below_node_position == null:
-		return false;
-	var nodes = get_block_nodes();
-	for n in nodes:
-		if round(n.global_position.x) == round(below_node_position.x) and round(n.global_position.y) + SINGLE_BLOCK_SIZE == round(below_node_position.y):
-			return true;
+func is_landed_on_nodes(below_node_positions: Array[Vector2]):
+	var nodes = get_bottom_nodes();
+	for below_node_position in below_node_positions:
+		for n in nodes:
+			if round(n.global_position.x) == round(below_node_position.x) and round(n.global_position.y) + SINGLE_BLOCK_SIZE == round(below_node_position.y):
+				return true;
 	return false
 
 func get_band() -> String :

@@ -28,8 +28,7 @@ var CHARACTERS = [
 	"pasupare/Maya",
 	"pasupare/Eve",
 ]
-var available_characters = CHARACTERS;
-var spawned_characters = [];
+var available_characters = CHARACTERS.duplicate();
 
 var size = 64;
 
@@ -44,7 +43,6 @@ func _ready():
 
 func create_block() -> CharacterBlock:
 	var character = available_characters[randi() % available_characters.size()];
-	spawned_characters.append(character);
 	available_characters.erase(character);
 	var new_block: CharacterBlock = load("res://blocks/characters/" + character + ".tscn").instantiate() as CharacterBlock;
 	#make the block upside down

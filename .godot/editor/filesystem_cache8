@@ -1,10 +1,10 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1724484337
-default_env.tres::Environment::3619873624698759516::1724484337::0::1::::<><>::
+::res://::1724492918
+default_env.tres::Environment::3619873624698759516::1724492854::0::1::::<><>::
 icon.png::CompressedTexture2D::4254059126185658983::1724337138::1724484333::1::::<><>::
-MainScreen.gd::GDScript::-1::1724476485::0::1::::<>Node2D<>::
-MainScreen.tscn::PackedScene::5715006998777040734::1724484337::0::1::::<><>::uid://d3f4v4m6gp186::::res://assets/Screenshot 2023-12-22 at 22.35.20.png<>res://MainScreen.gd<>uid://dcnvci88m7wwt::::res://assets/bg00026.png<>res://Spawner.gd<>res://Playground.gd<>uid://dly1fnxtk5osi::::res://assets/next-card.png<>uid://bcfo0casqyuu8::::res://assets/score-card.png
-Playground.gd::GDScript::-1::1724434974::0::1::::<>Node2D<>::
+MainScreen.gd::GDScript::-1::1724488638::0::1::::<>Node2D<>::
+MainScreen.tscn::PackedScene::5715006998777040734::1724492854::0::1::::<><>::res://MainScreen.gd<>uid://d0qdfbyx0wwdp::::res://screens/StartScreen.tscn
+Playground.gd::GDScript::-1::1724492845::0::1::::<>Node2D<>::
 Spawner.gd::GDScript::-1::1724431851::0::1::::<>Node2D<>::
 ::res://assets/::1724425124
 ako-udagawa.png::CompressedTexture2D::5187173669759719777::1724337138::1724338390::1::::<><>::
@@ -47,12 +47,22 @@ BlockNode.tscn::PackedScene::611815663724316808::1724431548::0::1::::<><>::res:/
 CharacterBlock.tscn::PackedScene::5636031333285283063::1724431548::0::1::::<><>::res://src/characters/common/CharacterBlock.gd<>uid://yc8trhj7kxbe::::res://assets/hikawa-sayo.png<>uid://iymrq4uxq8vk::::res://blocks/common/BlockNode.tscn
 ::res://nodes/::1724337138
 GlobalConfig.gd::GDScript::-1::1724431981::0::1::::<>Node2D<>::
-::res://src/::1724337771
+::res://screens/::1724491558
+GameScreen.tscn::PackedScene::4823196070221572914::1724491532::0::1::::<><>::res://src/screens/GameScreen.gd<>uid://dcnvci88m7wwt::::res://assets/bg00026.png<>uid://d3f4v4m6gp186::::res://assets/Screenshot 2023-12-22 at 22.35.20.png<>res://Spawner.gd<>res://Playground.gd<>uid://dly1fnxtk5osi::::res://assets/next-card.png<>uid://bcfo0casqyuu8::::res://assets/score-card.png
+ScreenTransition.tscn::PackedScene::5111122353651129137::1724491532::0::1::::<><>::res://src/screens/ScreenTransition.gd
+StartScreen.tscn::PackedScene::8947204356720862573::1724491558::0::1::::<><>::res://src/screens/StartScreen.gd<>uid://dcnvci88m7wwt::::res://assets/bg00026.png
+::res://src/::1724491447
 ::res://src/characters/::1724405376
 ::res://src/characters/afterglow/::1724340372
 ::res://src/characters/common/::1724411511
 BlockNode.gd::GDScript::-1::1724406871::0::1::::<>Node2D<>::
-CharacterBlock.gd::GDScript::-1::1724414603::0::1::::<>Node2D<>::
+CharacterBlock.gd::GDScript::-1::1724492620::0::1::::<>Node2D<>::
 ::res://src/characters/popipa/::1724337800
 ::res://src/characters/roselia/::1724337808
 Sayo.gd::GDScript::-1::1724340429::0::1::::<><>::
+::res://src/screens/::1724491532
+GameScreen.gd::GDScript::-1::1724491552::0::1::::<>Node2D<>::
+ScreenTransition.gd::GDScript::-1::1724489988::0::1::::<>CanvasLayer<>::
+StartScreen.gd::GDScript::-1::1724489915::0::1::::<>Node2D<>::
+::res://src/utils/::1724492828
+CommonUtils.gd::GDScript::-1::1724492852::0::1::::<>RefCounted<>::

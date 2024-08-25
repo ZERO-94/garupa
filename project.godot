@@ -19,6 +19,13 @@ config/icon="res://icon.png"
 
 GlobalConfig="*res://nodes/GlobalConfig.gd"
 ScreenTransition="*res://screens/ScreenTransition.tscn"
+CommonUtils="*res://src/utils/CommonUtils.gd"
+
+[display]
+
+window/size/viewport_width=858
+window/size/viewport_height=752
+window/stretch/mode="viewport"
 
 [global_group]
 
