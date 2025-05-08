@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name Spawner
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -42,8 +44,10 @@ func _ready():
 	pass
 
 func create_block() -> CharacterBlock:
-	var character = available_characters[randi() % available_characters.size()];
-	available_characters.erase(character);
+	print(available_characters.size());
+	var index = randi() % available_characters.size();
+	var character = available_characters[index];
+	available_characters.remove_at(index);
 	var new_block: CharacterBlock = load("res://blocks/characters/" + character + ".tscn").instantiate() as CharacterBlock;
 	#make the block upside down
 	
@@ -52,6 +56,12 @@ func create_block() -> CharacterBlock:
 	new_block.rotate(PI);
 
 	return new_block;
+
+func append_characters(characters: Array[String]) -> void:
+	for character in characters:
+		if not available_characters.has(character):
+			available_characters.append(character);
+	available_characters.shuffle();
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -146,3 +146,7 @@ func clear_blocks():
 		score += number_of_cleared_bands * 500 + (number_of_cleared_bands - 1) * 100;
 	else:
 		combo = 0;
+	#append the block to the spawner
+	var spawner = get_node("../Spawner") as Spawner;
+	for block in cleared_blocks:
+		spawner.append_characters([block.get_band() + "/" + block.name]);

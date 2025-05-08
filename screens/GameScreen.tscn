@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://caynlm2cnvy4a"]
+[gd_scene load_steps=17 format=4 uid="uid://caynlm2cnvy4a"]
 
 [ext_resource type="Script" path="res://src/screens/GameScreen.gd" id="1_6uyb2"]
 [ext_resource type="Texture2D" uid="uid://dcnvci88m7wwt" path="res://assets/bg00026.png" id="2_n5mt2"]
@@ -256,6 +256,12 @@ sources/3 = SubResource("TileSetAtlasSource_7oqdd")
 sources/4 = SubResource("TileSetAtlasSource_v3l5v")
 sources/5 = SubResource("TileSetAtlasSource_vcxf3")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1rak"]
+size = Vector2(20, 641.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i5sst"]
+size = Vector2(387, 20)
+
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_6uyb2")
 
@@ -344,3 +350,19 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 54
 text = "0"
 horizontal_alignment = 1
+
+[node name="BoundaryGroup" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="BoundaryGroup"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryGroup/StaticBody2D"]
+position = Vector2(53, 384.25)
+shape = SubResource("RectangleShape2D_s1rak")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BoundaryGroup/StaticBody2D"]
+position = Vector2(459, 384)
+shape = SubResource("RectangleShape2D_s1rak")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="BoundaryGroup/StaticBody2D"]
+position = Vector2(256, 715)
+shape = SubResource("RectangleShape2D_i5sst")
