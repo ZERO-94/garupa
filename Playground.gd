@@ -97,7 +97,6 @@ func recalculate_blocks_position() -> bool:
 						max_drop_gap = (k - 1) - node_matrix_position.y;
 						break;
 				max_drop_gaps.append(max_drop_gap);
-			
 			var final_max_drop_gap = max_drop_gaps.min();
 			
 			if final_max_drop_gap > 0:
