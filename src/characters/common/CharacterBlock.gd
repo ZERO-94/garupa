@@ -26,9 +26,19 @@ func move_up(steps: int = 1):
 	return move_and_collide(Vector2(0, -(steps * SINGLE_BLOCK_SIZE)));
 
 func move_right():
+	var nodes = get_block_nodes();
+	for node in nodes:
+		var block_matrix_position = node.get_matrix_position();
+		if block_matrix_position.x + 1 == GlobalConfig.ROW:
+			return null;
 	return move_and_collide(Vector2(SINGLE_BLOCK_SIZE, 0));
 
 func move_left():
+	var nodes = get_block_nodes();
+	for node in nodes:
+		var block_matrix_position = node.get_matrix_position();
+		if block_matrix_position.x == 0:
+			return null;
 	return move_and_collide(Vector2(-SINGLE_BLOCK_SIZE, 0));
 
 func get_block_nodes() -> Array[BlockNode]:
